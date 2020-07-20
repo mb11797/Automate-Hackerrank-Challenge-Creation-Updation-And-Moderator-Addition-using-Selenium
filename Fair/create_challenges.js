@@ -6,23 +6,29 @@ let bldr = new swd.Builder();
 let driver = bldr.forBrowser("chrome").build();
 
 let cFile = process.argv[2];
-let questionsFile = process.argv[3];
 
 //function banate hi usko call kar diya
-(async function(){
-    try{
+(async function () {
+    try {
         await loginHelper();
+        //******************************Home page********************************
+        let dropdown = await driver.findElement(swd.By.css("a[data-analytics=NavBarProfileDropDown]"));
+        await dropdown.click();
+        let adminBtn = await driver.findElement(swd.By.css("a[data-analytics=NavBarProfileDropDownAdministration]"))
+        await adminBtn.click();
+        console.log("Admin page reached");
+
     }
-    catch(err){
+    catch (err) {
         console.log(err);
     }
 })();
 
-async function loginHelper(){
+async function loginHelper() {
     //selenium inbuilt
     await driver.manage().setTimeouts({
-        implicit:10000,
-        pageLoad:10000,
+        implicit: 10000,
+        pageLoad: 10000,
     })
     // buffer credentials
     let bCredentials = await fs.promises.readFile(cFile);
