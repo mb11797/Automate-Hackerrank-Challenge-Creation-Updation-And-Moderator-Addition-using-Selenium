@@ -17,6 +17,22 @@ let cFile = process.argv[2];
         let adminBtn = await driver.findElement(swd.By.css("a[data-analytics=NavBarProfileDropDownAdministration]"))
         await adminBtn.click();
         console.log("Admin page reached");
+        //******************************Manage challenges*************************
+        await waitForLoader();
+        let lis = await driver.findElements(swd.By.css(".administration header ul li"));
+        await lis[1].click();
+
+        let managePageURL = await driver.getCurrentUrl();
+        let questions = require(questionsFile);
+
+        console.log(`No of challenges: ${questions.length}`);
+
+        for (let i = 0; i < questions.length; i++) {
+            await driver.get(managePageURL);
+            await waitForLoader();
+            await createChallenge(questions[i]);
+            console.log(`Challenge ${i}`);
+        }
 
     }
     catch (err) {
@@ -53,3 +69,7 @@ async function loginHelper() {
     console.log("User logged in");
 }
 
+async function waitForLoader(){
+    let loader = await driver.findElement(swd.By.css("#ajax-msg"));
+    await driver.wait(swd.until.elementIsNotVisible(loader));
+}
