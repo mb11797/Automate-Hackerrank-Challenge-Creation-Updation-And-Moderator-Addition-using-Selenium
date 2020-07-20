@@ -6,10 +6,11 @@ let bldr = new swd.Builder();
 let driver = bldr.forBrowser("chrome").build();
 
 let cFile = process.argv[2];
+let questionsFile = process.argv[3];
 
 //function banate hi usko call kar diya
-(async function () {
-    try {
+(async function(){
+    try{
         await loginHelper();
         //******************************Home page********************************
         let dropdown = await driver.findElement(swd.By.css("a[data-analytics=NavBarProfileDropDown]"));
@@ -17,6 +18,7 @@ let cFile = process.argv[2];
         let adminBtn = await driver.findElement(swd.By.css("a[data-analytics=NavBarProfileDropDownAdministration]"))
         await adminBtn.click();
         console.log("Admin page reached");
+        
         //******************************Manage challenges*************************
         await waitForLoader();
         let lis = await driver.findElements(swd.By.css(".administration header ul li"));
@@ -27,24 +29,23 @@ let cFile = process.argv[2];
 
         console.log(`No of challenges: ${questions.length}`);
 
-        for (let i = 0; i < questions.length; i++) {
+        for(let i=0; i<questions.length; i++){
             await driver.get(managePageURL);
             await waitForLoader();
             await createChallenge(questions[i]);
             console.log(`Challenge ${i}`);
         }
-
     }
-    catch (err) {
+    catch(err){
         console.log(err);
     }
 })();
 
-async function loginHelper() {
+async function loginHelper(){
     //selenium inbuilt
     await driver.manage().setTimeouts({
-        implicit: 10000,
-        pageLoad: 10000,
+        implicit:10000,
+        pageLoad:10000,
     })
     // buffer credentials
     let bCredentials = await fs.promises.readFile(cFile);
@@ -72,4 +73,49 @@ async function loginHelper() {
 async function waitForLoader(){
     let loader = await driver.findElement(swd.By.css("#ajax-msg"));
     await driver.wait(swd.until.elementIsNotVisible(loader));
+}
+
+// implicit ka matlab - agar findElement ko abhi nhn mila element, toh 10 sec ke baad vo dobara try karega
+// pageload - hrr ek frontend framework pe bana hua hai, toh vo na ek fw use karta hai backbone.js, aur na usme kaafi saara frontend ke andar oracle load hota rehta hai...isliye pageLoad 10 sec ka laga rakha hai
+
+// NOTE - async fn ka sara code try catch me aayega
+
+async function createChallenge(question){
+    let createChallengeBtn = await driver.findElement(swd.By.css(".btn.btn-green.backbone.pull-right"))
+    await createChallengeBtn.click();
+    await waitForLoader();
+
+    let eLinkArr = ["#name", "textarea.description", "#problem_statement-container .CodeMirror div textarea", "#input_format-container .CodeMirror div textarea", "#constraints-container .CodeMirror div textarea", "#output_format-container .CodeMirror div textarea", ".tagsinput input"];
+
+    let elementsArrayPromise = eLinkArr.map(function(selector){
+        return driver.findElement(swd.By.css(selector));
+    })
+
+    let elementsArray = await Promise.all(elementsArrayPromise);
+    
+    await elementsArray[0].sendKeys(question["Challenge Name"]);
+    await elementsArray[1].sendKeys(question["Description"]);
+    await handleContainer("#problem_statement-container .CodeMirror div", elementsArray[2], question["Problem Statement"]);
+    await handleContainer("#input_format-container .CodeMirror div", elementsArray[3], question["Input Format"]);
+    await handleContainer("#constraints-container .CodeMirror div", elementsArray[4], question["Constraints"]);
+    await handleContainer("#output_format-container .CodeMirror div", elementsArray[5], question["Output Format"]);
+    await elementsArray[6].sendKeys(question["Tags"]);
+    await elementsArray[6].sendKeys(swd.Key.ENTER);
+    let saveBtn = await driver.findElement(swd.By.css(".save-challenge.btn.btn-green"));
+    await saveBtn.click();
+
+    // jugaad => parent height
+    // div => height => increase (JS execute browser)
+    // await driver.executeScript("alert('Amazing'");
+    // DOM => dynamically page load content change
+}
+
+
+// pSelector => parentSelector
+async function handleContainer(pSelector, container, data){
+    // JS parent => height change
+    let parentElement = await driver.findElement(swd.By.css(pSelector));
+    await driver.executeScript("arguments[0].style.height='10px'", parentElement);
+    // send keys
+    await container.sendKeys(data);
 }

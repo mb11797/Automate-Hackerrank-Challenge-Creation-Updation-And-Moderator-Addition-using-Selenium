@@ -1,2 +1,2 @@
 clear
-node create_challenges.js "../credentials.json"
+node create_challenges.js "../credentials.json" "./questions.js"
