@@ -1,0 +1,1 @@
+node add_moderator.js "../credentials.json" "mb_manasbhardwaj"
