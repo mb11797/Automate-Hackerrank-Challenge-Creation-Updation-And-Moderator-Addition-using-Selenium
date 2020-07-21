@@ -1,5 +1,3 @@
-// "url": "https://www.hackerrank.com/auth/login?h_l=body_middle_left_button&h_r=login"
-
 let fs = require("fs");
 require("chromedriver");
 
@@ -11,8 +9,8 @@ let cFile = process.argv[2];
 let userToAdd = process.argv[3];
 
 //function banate hi usko call kar diya
-(async function(){
-    try{
+(async function () {
+    try {
         await loginHelper();
         //******************************Home page********************************
         let dropdown = await driver.findElement(swd.By.css("a[data-analytics=NavBarProfileDropDown]"));
@@ -20,17 +18,33 @@ let userToAdd = process.argv[3];
         let adminBtn = await driver.findElement(swd.By.css("a[data-analytics=NavBarProfileDropDownAdministration]"))
         await adminBtn.click();
         console.log("Admin page reached");
+        //******************************Manage challenges*************************
+        await waitForLoader();
+        let lis = await driver.findElements(swd.By.css(".administration header ul li"));
+        await lis[1].click();
+
+        let managePageURL = await driver.getCurrentUrl();
+
+        // one by one visit every question and add userToAdd as moderator
+        let qIdx = 0;
+        let qElement = await getQuestionElement(qIdx, managePageURL);
+        while (qElement !== null) {
+            await handleQuestion(qElement);
+            qIdx++;
+            qElement = await getQuestionElement(qIdx, managePageURL);
+        }
+
     }
-    catch(err){
+    catch (err) {
         console.log(err);
     }
 })();
 
-async function loginHelper(){
+async function loginHelper() {
     //selenium inbuilt
     await driver.manage().setTimeouts({
-        implicit:10000,
-        pageLoad:10000,
+        implicit: 10000,
+        pageLoad: 10000,
     })
     // buffer credentials
     let bCredentials = await fs.promises.readFile(cFile);
@@ -56,8 +70,15 @@ async function loginHelper(){
     console.log("User logged in");
 }
 
-async function waitForLoader(){
+async function waitForLoader() {
     let loader = await driver.findElement(swd.By.css("#ajax-msg"));
     await driver.wait(swd.until.elementIsNotVisible(loader));
 }
 
+async function handleQuestion(qElement){
+    
+}
+
+async function getQuestionElement(qIdx, managePageURL){
+    
+}
