@@ -1,0 +1,2 @@
+# Automate-Hackerrank-Challenge-Creation-Updation-And-Moderator-Addition-using-Selenium
+Automated the creation of Hackerrank challenges and also add new moderators in existing Hackerrank challenges in order to reduce the amount of redundant work being done manually by creating individual challenges by manual copy pasting the data for challenge and in case of moderator addition navigating each and every challenge manually to just add moderator.
