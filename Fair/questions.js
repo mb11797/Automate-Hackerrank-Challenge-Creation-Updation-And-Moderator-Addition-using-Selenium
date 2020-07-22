@@ -257,7 +257,7 @@ module.exports = [
         1 4150 4151 54748 92727 93084`
       }
     ]
-  },{
+  }, {
     "Challenge Name": "Pep_Java_3DataTypeAndBitManipulation_2NumberOfTimesADigitOccur",
     "Description": "Number Of Times A Digit Occur",
     "Problem Statement": `Count the number of d's as digit in a number.
@@ -294,6 +294,110 @@ module.exports = [
         "Output": `0`
       }
     ]
+
+  }, {
+    "Challenge Name": "Pep_Java_1GettingStarted_7Pattern_New_1",
+    "Description": "Question 11",
+    "Problem Statement": `Take as input a number n, the number of rows  
+    Print the following pattern  
+    *  
+    *	*  
+    *	*	*  
+    *	*	*	*  
+    *	*	*	*	*  
+    for n = 5.`,
+    "Input Format": "Integer",
+    "Constraints": "n1 <= 10 ^ 9  n2 <= 10 ^ 9",
+    "Output Format": "Integer",
+    "Tags": "Basics",
+    "Testcases": [
+      {
+        "Input": "5",
+        "Output": `*  
+        *	*  
+        *	*	*  
+        *	*	*	*  
+        *	*	*	*	*  `
+      }
+    ]
+  }, {
+    "Challenge Name": "Pep_Java_1GettingStarted_8Pattern_New_1",
+    "Description": "Question 12",
+    "Problem Statement": `Take as input a number n, the number of rows
+    Print the following pattern
+      *
+     ***
+    *****
+     ***
+      *
+    for n = 5.`,
+    "Input Format": "Integer",
+    "Constraints": "n1 <= 10 ^ 9  n2 <= 10 ^ 9",
+    "Output Format": `Pattern for n = 5.
+    *  
+   ***  
+  *****  
+   ***  
+    * `,
+    "Tags": "Basics",
+    "Testcases": [
+      {
+        "Input": "5",
+        "Output":
+          ` *
+        ***
+       *****
+        ***
+         *`
+      },
+      {
+        "Input": "3",
+        "Output": ` *
+                   ***
+                    *`
+      }
+    ]
+  }, {
+    "Challenge Name": "Pep_Java_2NumberSystemAndFunctions_4Series_New_1",
+    "Description": "Question 13",
+    "Problem Statement": `Take as input
+    1. first number: a
+    2. common difference for the AP: d
+    3. common ratio for the GP: r
+    4. number of elements: n
     
+    Let us assume fap is the nth number of AP
+    Let us assume fgp is the nth number of GP
+    Let us assume fagp is the nth number of AGP
+    Let us assume sap is the sum of first n number of AP
+    Let us assume sgp is the sum of first n number of GP
+    Let us assume sagp is the sum of first n number of AGP
+    Print fap, fgp, fagp, sap, sgp, sagp separated by a space on the same line`,
+    "Input Format": `Integer representing a
+    Integer representing d
+    Integer representing r
+    Integer representing n`,
+    "Constraints": `1 <= a <= 10 ^ 9
+                    1 <= d <= 100
+                    1 <= r <= 10
+                    1 <= n <= 5`,
+    "Output Format": `fap fgp fagp sap sgp sagp`,
+    "Tags": "Basics",
+    "Testcases": [
+      {
+        "Input": `10
+                  5
+                  2
+                  5`,
+        "Output": "30 160 480 100 310 800"
+      },
+      {
+        "Input": `5
+                  5
+                  5
+                  5`,
+        "Output": "25 3125 15625 75 3905 18555"
+      }
+    ]
   }
 ]
