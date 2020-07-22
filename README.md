@@ -3,7 +3,11 @@ Automated the creation of Hackerrank challenges and also add new moderators in e
 
 
 1. Create Challenges:
+
+
 ![demo-video-hackerrank-create-cha](https://user-images.githubusercontent.com/22445094/88198821-bb085180-cc61-11ea-9036-83f75cc27423.gif)
 
 2. Add Moderator:
+
+
 ![demo-video-hackerrank-moderator](https://user-images.githubusercontent.com/22445094/88198653-8eecd080-cc61-11ea-8794-256b37111fc9.gif)
